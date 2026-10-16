@@ -1,5 +1,6 @@
 #include "shell.hpp"
 #include "basic.hpp"
+#include "mutation.hpp"
 #include "identity.hpp"
 
 QStringList parseLine(const QString &line) {
@@ -64,6 +65,8 @@ Result Shell::dispatch(const QString &command, const QStringList &args) {
     if (command == "cd") return {changeDirectory(vfs_, cwd_, args)};
     if (command == "tree") return {treeCommand(vfs_, cwd_, args)};
     if (command == "uniq") return {uniqueCommand(vfs_, cwd_, args)};
+    if (command == "mkdir") return {mkdirCommand(vfs_, cwd_, args)};
+    if (command == "chmod") return {chmodCommand(vfs_, cwd_, args)};
     if (command == "whoami") {
         if (!args.isEmpty()) throw ShellError("использование: whoami");
         return {currentUser()};

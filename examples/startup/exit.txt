@@ -1,0 +1,6 @@
+// Работает даже на пустой VFS.
+conf-dump
+ls
+tree
+whoami
+exit

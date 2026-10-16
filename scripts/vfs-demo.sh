@@ -1,8 +1,9 @@
 #!/bin/sh
 set -eu
 cd "$(dirname "$0")/.."
-cmake -S . -B build
-cmake --build build --parallel
+build_dir=${BUILD_DIR:-build}
+cmake -S . -B "$build_dir"
+cmake --build "$build_dir" --parallel
 for vfs in minimal files full; do
-    ./build/emulator --vfs "examples/$vfs.xml" --startup examples/startup/stage3.txt
+    "$build_dir/emulator" --vfs "examples/$vfs.xml" --startup examples/startup/stage3.txt
 done

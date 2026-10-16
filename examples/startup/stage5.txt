@@ -1,0 +1,41 @@
+// Создание каталогов и все поддержанные режимы.
+mkdir /new
+mkdir /new
+mkdir -p "/new/with spaces/deep"
+mkdir -p /new
+mkdir -m 700 /private
+mkdir /one /two
+mkdir -p -m 750 /nested/a/b
+mkdir -m 999 /bad
+mkdir /missing/child
+mkdir /lines.txt/child
+mkdir
+mkdir -z /bad
+mkdir ""
+ls -l /
+chmod 600 /lines.txt
+ls -l /lines.txt
+chmod u+x,g-w,o= /lines.txt
+ls -l /lines.txt
+chmod -R 750 /new
+ls -l /new
+chmod a=rx /one /two
+chmod 000 /lines.txt
+uniq /lines.txt
+chmod 644 /lines.txt
+uniq -c /lines.txt
+chmod 500 /private
+mkdir /private/denied
+chmod 700 /private
+mkdir /private/allowed
+chmod 000 /private
+cd /private
+chmod 700 /private
+chmod 999 /lines.txt
+chmod bad /lines.txt
+chmod 755 /missing
+chmod
+chmod -R 755 /nested
+tree -a /
+conf-dump
+exit

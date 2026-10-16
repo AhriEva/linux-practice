@@ -1,0 +1,14 @@
+// Сценарий без ошибок для быстрой демонстрации.
+conf-dump
+whoami
+ls -al /
+cd "/home/student/folder with spaces"
+ls
+cd /
+tree -L 3
+uniq -c /lines.txt
+mkdir -p "/demo/new folder/nested"
+chmod -R 700 /demo
+ls -l /demo
+tree /demo
+// Окно остаётся открытым для интерактивной работы.
