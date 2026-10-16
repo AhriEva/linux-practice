@@ -1,4 +1,6 @@
 #include "shell.hpp"
+#include "basic.hpp"
+#include "identity.hpp"
 
 QStringList parseLine(const QString &line) {
     QStringList words;
@@ -58,10 +60,13 @@ Result Shell::dispatch(const QString &command, const QStringList &args) {
         closed_ = true;
         return {"Сеанс завершён."};
     }
-    if (command == "ls" || command == "cd") {
-        if (args.size() > 1)
-            throw ShellError("использование: " + command + " [путь]");
-        return {command + ": [" + args.join(", ") + "]"};
+    if (command == "ls") return {listCommand(vfs_, cwd_, args)};
+    if (command == "cd") return {changeDirectory(vfs_, cwd_, args)};
+    if (command == "tree") return {treeCommand(vfs_, cwd_, args)};
+    if (command == "uniq") return {uniqueCommand(vfs_, cwd_, args)};
+    if (command == "whoami") {
+        if (!args.isEmpty()) throw ShellError("использование: whoami");
+        return {currentUser()};
     }
     throw ShellError("неизвестная команда: " + command);
 }

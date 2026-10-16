@@ -20,5 +20,3 @@ private:
     QLabel *prompt_;
 };
 
-/// Получить имя реального пользователя ОС.
-QString currentUser();

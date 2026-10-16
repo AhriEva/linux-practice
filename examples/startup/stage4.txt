@@ -1,0 +1,41 @@
+// Все режимы основных команд и ошибки.
+ls
+ls -a
+ls -l
+ls -al /home
+ls /lines.txt
+cd "/home/student/folder with spaces"
+ls "a b.txt"
+cd ..
+cd .
+cd ../../..
+cd
+cd /missing
+cd /lines.txt
+cd / a
+ls --bad
+ls /missing
+tree
+tree -a
+tree -d
+tree -L 2 /home
+tree /lines.txt
+tree -L 0
+tree /missing
+whoami
+whoami extra
+uniq /lines.txt
+uniq -c /lines.txt
+uniq -d /lines.txt
+uniq -u /lines.txt
+uniq -cd /lines.txt
+uniq -cu /lines.txt
+uniq -du /lines.txt
+uniq /binary.bin
+uniq /missing
+uniq /empty
+uniq
+conf-dump
+unknown
+exit extra
+exit
