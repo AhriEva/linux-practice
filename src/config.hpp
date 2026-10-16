@@ -9,6 +9,7 @@ struct Config {
     bool ascii = false;
     int maxDepth = 5;
     QString exclude;
+    bool order = false;
     QString dump() const;
 };
 

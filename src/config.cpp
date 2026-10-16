@@ -48,6 +48,7 @@ Config readConfig(QCoreApplication &app) {
     parser.addOption({"repository", "URL sparse-индекса или тестовый JSON", "source",
                       "https://index.crates.io/"});
     parser.addOption({"test-mode", "Использовать тестовый граф"});
+    parser.addOption({"order", "Показать порядок загрузки зависимостей"});
     parser.addOption({"ascii", "Дополнительно вывести ASCII-дерево"});
     parser.addOption({"max-depth", "Максимальная глубина: корень = 0", "N", "5"});
     parser.addOption({"exclude", "Не учитывать имена с подстрокой", "text"});
@@ -61,6 +62,7 @@ Config readConfig(QCoreApplication &app) {
     Config config{parser.value("package"), parser.value("repository"),
                   parser.isSet("test-mode"), parser.isSet("ascii"),
                   depth, parser.value("exclude")};
+    config.order = parser.isSet("order");
     validateConfig(config);
     return config;
 }

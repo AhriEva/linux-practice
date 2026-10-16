@@ -7,3 +7,5 @@ build-*/
 *.o
 *.a
 *.dSYM/
+target/
+Cargo.lock
