@@ -1,5 +1,6 @@
 #pragma once
 
+#include "config.hpp"
 #include <QStringList>
 #include <stdexcept>
 
@@ -9,7 +10,7 @@ public:
     explicit ShellError(const QString &message);
 };
 
-/// Разобрать кавычки, экранирование и комментарии #.
+/// Разобрать кавычки, экранирование и комментарии //.
 QStringList parseLine(const QString &line);
 
 /// Результат команды; ok позволяет сценариям обнаружить ошибку.
@@ -21,11 +22,13 @@ struct Result {
 /// Независимая от GUI сессия оболочки.
 class Shell {
 public:
+    explicit Shell(Config config = {}) : config_(config) {}
     Result execute(const QString &line);
     QString cwd() const { return cwd_; }
     bool closed() const { return closed_; }
 private:
     Result dispatch(const QString &command, const QStringList &args);
+    Config config_;
     QString cwd_ = "/";
     bool closed_ = false;
 };

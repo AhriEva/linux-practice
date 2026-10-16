@@ -9,7 +9,8 @@ QStringList parseLine(const QString &line) {
     QChar quote;
     bool escaped = false;
     bool started = false;
-    for (const QChar ch : line) {
+    for (qsizetype i = 0; i < line.size(); ++i) {
+        const QChar ch = line[i];
         if (escaped) {
             word += ch;
             escaped = false;
@@ -22,7 +23,7 @@ QStringList parseLine(const QString &line) {
         } else if (ch == '\'' || ch == '"') {
             quote = ch;
             started = true;
-        } else if (ch == '#') {
+        } else if (!started && line.mid(i, 2) == "//") {
             break;
         } else if (ch.isSpace()) {
             if (started) words << word;
@@ -51,6 +52,10 @@ Result Shell::execute(const QString &line) {
 }
 
 Result Shell::dispatch(const QString &command, const QStringList &args) {
+    if (command == "conf-dump") {
+        if (!args.isEmpty()) throw ShellError("использование: conf-dump");
+        return {config_.dump()};
+    }
     if (command == "exit") {
         if (!args.isEmpty()) throw ShellError("использование: exit");
         closed_ = true;

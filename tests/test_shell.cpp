@@ -5,7 +5,7 @@ class ShellTests : public QObject {
     Q_OBJECT
 private slots:
     void quotes() {
-        QCOMPARE(parseLine("ls \"a b\" 'c#d' # comment"),
+        QCOMPARE(parseLine("ls \"a b\" 'c#d' // comment"),
                  QStringList({"ls", "a b", "c#d"}));
         QCOMPARE(parseLine("ls '' a\\ b"),
                  QStringList({"ls", "", "a b"}));
