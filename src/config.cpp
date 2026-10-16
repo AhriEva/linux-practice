@@ -1,5 +1,6 @@
 #include "config.hpp"
 #include "error.hpp"
+#include "version.hpp"
 #include <QFileInfo>
 #include <QRegularExpression>
 #include <QUrl>
@@ -8,7 +9,8 @@ QString Config::dump() const {
     return "package=" + package + "\nrepository=" + repository
         + "\ntest-mode=" + (testMode ? "true" : "false")
         + "\nascii=" + (ascii ? "true" : "false")
-        + "\nmax-depth=" + QString::number(maxDepth) + "\nexclude=" + exclude;
+        + "\nmax-depth=" + QString::number(maxDepth) + "\nexclude=" + exclude
+        + "\norder=" + (order ? "true" : "false");
 }
 
 void validateConfig(const Config &config) {
@@ -20,6 +22,7 @@ void validateConfig(const Config &config) {
         || (config.testMode && config.package.contains('@'))
         || config.package.endsWith('@'))
         throw GraphError("неверное имя пакета: " + config.package);
+    if (config.package.contains('@')) parseVersion(config.package.section('@', 1));
     if (config.maxDepth < 0) throw GraphError("max-depth должен быть >= 0");
     if (config.exclude.contains('\n') || config.exclude.contains('\r'))
         throw GraphError("exclude не должен содержать переводы строк");

@@ -69,6 +69,23 @@ private slots:
         QVERIFY(active[0].request.names.contains("child"));
         QCOMPARE(activeDependencies(package, {false, {}}).size(), 0);
     }
+    void weakAndSuppressedFeatures() {
+        Package package;
+        package.name = "root";
+        package.features["weak"] = {"alias?/std"};
+        package.features["strong"] = {"dep:alias"};
+        Dependency dep;
+        dep.name = "real";
+        dep.alias = "alias";
+        dep.optional = true;
+        package.dependencies << dep;
+        QCOMPARE(activeDependencies(package, {false, {"weak"}}).size(), 0);
+        const auto active = activeDependencies(package, {false, {"weak", "strong"}});
+        QCOMPARE(active.size(), 1);
+        QVERIFY(active[0].request.names.contains("std"));
+        QVERIFY_THROWS_EXCEPTION(GraphError, activeDependencies(package, {false, {"alias"}}));
+    }
+
 };
 QTEST_GUILESS_MAIN(RepositoryTests)
 #include "test_repository.moc"

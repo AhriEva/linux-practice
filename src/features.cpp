@@ -1,6 +1,16 @@
 #include "package.hpp"
 #include <QQueue>
 
+namespace {
+bool implicitOptional(const Package &package, const QString &feature) {
+    for (const auto &values : package.features)
+        if (values.contains("dep:" + feature)) return false;
+    for (const auto &dep : package.dependencies)
+        if (dep.alias == feature && dep.optional) return true;
+    return false;
+}
+}
+
 QVector<ActiveDependency> activeDependencies(const Package &package,
                                             const FeatureRequest &request) {
     QSet<QString> enabled;
@@ -24,10 +34,8 @@ QVector<ActiveDependency> activeDependencies(const Package &package,
         } else if (package.features.contains(feature)) {
             for (const auto &child : package.features.value(feature)) queue.enqueue(child);
         } else {
-            bool optional = false;
-            for (const auto &dep : package.dependencies)
-                if (dep.alias == feature && dep.optional) optional = true;
-            if (!optional) throw GraphError("неизвестная feature " + feature + " у " + package.id());
+            if (!implicitOptional(package, feature))
+                throw GraphError("неизвестная feature " + feature + " у " + package.id());
             enabled.insert(feature);
         }
     }

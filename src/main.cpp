@@ -1,12 +1,12 @@
 #include "config.hpp"
 #include "error.hpp"
-#include "repository.hpp"
-#include "test_repository.hpp"
 #include "graph.hpp"
 #include "order.hpp"
-#include <memory>
+#include "render.hpp"
+#include "test_repository.hpp"
 #include <QCoreApplication>
 #include <QTextStream>
+#include <memory>
 
 int main(int argc, char *argv[]) {
     QCoreApplication app(argc, argv);
@@ -17,15 +17,12 @@ int main(int argc, char *argv[]) {
         else repository = std::make_unique<CargoRepository>(config.repository);
         const auto graph = buildGraph(*repository, config);
         QTextStream output(stdout);
+        output << plantUml(graph) << Qt::endl;
+        if (config.ascii) output << "\nASCII tree:\n" << asciiTree(graph) << Qt::endl;
         if (config.order) {
-            output << "Порядок загрузки исследованного графа: "
-                   << loadOrder(graph).join(" -> ") << Qt::endl;
-            return 0;
-        }
-        for (auto it = graph.edges.begin(); it != graph.edges.end(); ++it) {
-            auto children = it.value().values();
-            children.sort();
-            output << it.key() << ": " << children.join(", ") << Qt::endl;
+            output << "\nПорядок загрузки исследованного графа:\n";
+            if (!graph.truncated.isEmpty()) output << "(достигнут предел глубины)\n";
+            output << loadOrder(graph).join(" -> ") << Qt::endl;
         }
         return 0;
     } catch (const GraphError &error) {

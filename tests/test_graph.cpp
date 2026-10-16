@@ -3,6 +3,30 @@
 #include <QTemporaryFile>
 #include <QtTest>
 
+namespace {
+class MemoryRepository : public Repository {
+public:
+    QMap<QString, Package> packages;
+    QStringList queries;
+    Package select(const QString &name, const QString &) override {
+        queries << name;
+        return packages.value(name);
+    }
+    void add(const QString &name, const QStringList &dependencies) {
+        Package package;
+        package.name = name;
+        for (const auto &child : dependencies) {
+            Dependency dependency;
+            dependency.alias = child;
+            dependency.name = child;
+            dependency.requirement = "*";
+            package.dependencies << dependency;
+        }
+        packages[name] = package;
+    }
+};
+}
+
 class GraphTests : public QObject {
     Q_OBJECT
 private:
@@ -45,6 +69,26 @@ private slots:
         auto params = config("simple");
         params.package = "Z";
         QVERIFY_THROWS_EXCEPTION(GraphError, fixture(params));
+    }
+    void lateFeatureUnionAndPruning() {
+        MemoryRepository repo;
+        repo.add("A", {"B", "C"});
+        repo.add("B", {"D"});
+        repo.add("C", {"E"});
+        repo.add("D", {"F"});
+        repo.add("E", {"D"});
+        repo.add("F", {});
+        repo.packages["D"].dependencies[0].optional = true;
+        repo.packages["D"].features["extra"] = {"dep:F"};
+        repo.packages["E"].dependencies[0].features = {"extra"};
+        Config params{"A", {}, true, false, 5, {}};
+        const auto graph = buildGraph(repo, params);
+        QVERIFY(graph.edges.value("D").contains("F"));
+        QCOMPARE(graph.depth.value("F"), 3);
+        repo.queries.clear();
+        params.exclude = "D";
+        QVERIFY(!buildGraph(repo, params).packages.contains("D"));
+        QVERIFY(!repo.queries.contains("D"));
     }
     void invalidTestRepository_data() {
         QTest::addColumn<QByteArray>("data");
