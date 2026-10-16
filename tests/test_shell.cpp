@@ -9,7 +9,7 @@ private slots:
                  QStringList({"ls", "a b", "c#d"}));
         QCOMPARE(parseLine("ls '' a\\ b"),
                  QStringList({"ls", "", "a b"}));
-        QVERIFY_EXCEPTION_THROWN(parseLine("ls 'bad"), ShellError);
+        QVERIFY_THROWS_EXCEPTION(ShellError, parseLine("ls 'bad"));
     }
     void errorsAndExit() {
         Shell shell;

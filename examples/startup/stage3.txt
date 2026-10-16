@@ -1,0 +1,8 @@
+// motd выводится перед скриптом.
+conf-dump
+ls
+cd "/home/student/folder with spaces"
+ls "a b.txt"
+unknown
+ls "незакрытые кавычки
+exit

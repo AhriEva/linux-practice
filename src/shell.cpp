@@ -1,8 +1,5 @@
 #include "shell.hpp"
 
-ShellError::ShellError(const QString &message)
-    : std::runtime_error(message.toStdString()) {}
-
 QStringList parseLine(const QString &line) {
     QStringList words;
     QString word;

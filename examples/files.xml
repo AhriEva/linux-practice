@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vfs>
+  <file name="motd">Добро пожаловать в эмулятор, вариант 18!</file>
+  <file name="lines.txt">alpha
+alpha
+beta
+beta
+gamma
+alpha
+</file>
+  <file name="binary.bin" encoding="base64">AAECA//+</file>
+  <file name=".hidden">Скрытый файл</file>
+</vfs>

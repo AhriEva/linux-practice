@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vfs mode="755">
+  <file name="motd">Вариант 18. Изменения VFS сохраняются только в памяти.</file>
+  <file name="lines.txt">alpha
+alpha
+beta
+beta
+gamma
+alpha
+</file>
+  <file name="binary.bin" encoding="base64">AAECA//+</file>
+  <file name=".hidden">Скрытый файл</file>
+  <dir name="home">
+    <dir name="student">
+      <dir name="documents">
+        <file name="notes.txt">Один
+Один
+Два
+Три
+Три
+</file>
+      </dir>
+      <dir name="folder with spaces">
+        <file name="a b.txt">Строка с пробелами</file>
+      </dir>
+    </dir>
+  </dir>
+  <dir name="empty"/>
+</vfs>
