@@ -1,0 +1,43 @@
+@startuml
+left to right direction
+skinparam componentStyle rectangle
+component "ppv-lite86@0.2.21" as n0
+component "proc-macro2@1.0.107" as n1
+component "quote@1.0.47" as n2
+component "rand_chacha@0.3.1" as n3 #DCEBFF
+component "rand_core@0.6.4" as n4
+component "syn@2.0.119" as n5
+component "unicode-ident@1.0.27" as n6
+component "zerocopy-derive@0.8.63" as n7
+component "zerocopy@0.8.63" as n8
+n0 --> n8
+n1 --> n6
+n2 --> n1
+n3 --> n0
+n3 --> n4
+n5 --> n1
+n5 --> n2
+n5 --> n6
+n7 --> n1
+n7 --> n2
+n7 --> n5
+n8 --> n7
+@enduml
+
+ASCII tree:
+rand_chacha@0.3.1
+|-- ppv-lite86@0.2.21
+|   `-- zerocopy@0.8.63
+|       `-- zerocopy-derive@0.8.63
+|           |-- proc-macro2@1.0.107
+|           |   `-- unicode-ident@1.0.27
+|           |-- quote@1.0.47
+|           |   `-- proc-macro2@1.0.107 (*)
+|           `-- syn@2.0.119
+|               |-- proc-macro2@1.0.107 (*)
+|               |-- quote@1.0.47 (*)
+|               `-- unicode-ident@1.0.27 (*)
+`-- rand_core@0.6.4
+
+Порядок загрузки исследованного графа:
+rand_core@0.6.4 -> unicode-ident@1.0.27 -> proc-macro2@1.0.107 -> quote@1.0.47 -> syn@2.0.119 -> zerocopy-derive@0.8.63 -> zerocopy@0.8.63 -> ppv-lite86@0.2.21 -> rand_chacha@0.3.1

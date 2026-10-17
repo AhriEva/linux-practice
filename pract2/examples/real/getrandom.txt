@@ -1,0 +1,20 @@
+@startuml
+left to right direction
+skinparam componentStyle rectangle
+component "cfg-if@1.0.5" as n0
+component "getrandom@0.2.16" as n1 #DCEBFF
+component "libc@0.2.190" as n2
+component "wasi@0.11.1+wasi-snapshot-preview1" as n3
+n1 --> n0
+n1 --> n2
+n1 --> n3
+@enduml
+
+ASCII tree:
+getrandom@0.2.16
+|-- cfg-if@1.0.5
+|-- libc@0.2.190
+`-- wasi@0.11.1+wasi-snapshot-preview1
+
+Порядок загрузки исследованного графа:
+cfg-if@1.0.5 -> libc@0.2.190 -> wasi@0.11.1+wasi-snapshot-preview1 -> getrandom@0.2.16
